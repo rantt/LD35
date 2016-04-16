@@ -24,9 +24,17 @@ Game.Play = function(game) {
 };
 
 Game.Play.prototype = {
+  init: function() {
+    this.game.physics.startSystem(Phaser.Physics.ARCADE);
+  },
   create: function() {
     this.game.world.setBounds(0, 0 ,Game.w ,Game.h);
+    this.game.stage.backgroundColor = '#dcdcdc';
 
+    // this.player = this.game.add.sprite(Game.w/2, Game.h/2, 'shapes', 0);
+    this.player = new Player(this.game, Game.w/2, Game.h/2);;
+
+    this.cursors = this.game.input.keyboard.createCursorKeys();
     // // Music
     // this.music = this.game.add.sound('music');
     // this.music.volume = 0.5;
@@ -50,6 +58,8 @@ Game.Play.prototype = {
   },
 
   update: function() {
+
+    this.player.movements();
 
     // // Toggle Music
     // muteKey.onDown.add(this.toggleMute, this);
