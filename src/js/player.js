@@ -4,7 +4,8 @@ var Player = function(game, x, y) {
   this.JUMP_SPEED = -550;
   this.MOVE_SPEED = 300;
 
-  this.triangleUnlocked = false;
+  // this.triangleUnlocked = false;
+  this.triangleUnlocked = true;
 
   this.standing = false;
   this.jumping = false;

@@ -6,7 +6,7 @@ var rows = 20,
 var Game = {
   w: tileSize * cols,
   h: tileSize * rows,
-  camera: {x:1, y:1}
+  camera: {x:2, y:1}
 };
 
 // var Game = {

@@ -49,6 +49,8 @@ Game.Play.prototype = {
     this.map.setCollision(1);
     this.map.setCollision(2);
 
+    this.map.setTileIndexCallback(3, this.playerDead, this);
+
     this.map.createFromObjects('objects', 4, this.makeBox(160, 32), 0, true, false, this.elevators);
     this.map.createFromObjects('objects', 7, 'shapes', 0, true, false, this.powerups);
 
@@ -57,7 +59,7 @@ Game.Play.prototype = {
     this.loadObjects();
 
     // this.player = new Player(this.game, Game.w/2, Game.h/2);
-    this.player = new Player(this.game, 1216, 1216); 
+    this.player = new Player(this.game, 2000, 1216); 
 
     // // Music
     // this.music = this.game.add.sound('music');
@@ -67,6 +69,7 @@ Game.Play.prototype = {
 
 
     //Set Gamera to screen 6
+    // console.log(Game.camera.x)
     this.game.camera.x = Game.camera.x*Game.w;
     this.game.camera.y = Game.camera.y*Game.h;
 
@@ -74,6 +77,9 @@ Game.Play.prototype = {
     this.twitterButton = this.game.add.button(this.game.world.centerX, this.game.world.centerY + 200,'twitter', this.twitter, this);
     this.twitterButton.anchor.set(0.5);
     this.twitterButton.visible = false;
+  },
+  playerDead: function() {
+    this.player.reset(2000, 1216);
   },
   loadObjects: function() {
     this.elevators.forEach(function(e) {
