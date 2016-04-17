@@ -1,9 +1,10 @@
 var Player = function(game, x, y) {
   this.game = game;
 
-  this.JUMP_SPEED = -500;
+  this.JUMP_SPEED = -550;
   this.MOVE_SPEED = 300;
 
+  this.triangleUnlocked = false;
 
   this.standing = false;
   this.jumping = false;
@@ -66,25 +67,31 @@ Player.prototype.movements = function() {
   this.touchingRight = this.body.blocked.right || this.body.touching.right;
 
   if (this.standing) {
+      this.frame = 0;
       this.jumps = 2;
       this.jumping = false;
+  }else {
+    if (this.triangleUnlocked === true) {
+      this.frame = 1;
+    }
   }
 
-
   if (this.leftInputIsActive()) {
-    console.log('blah');
     // this.facing = 'left'
     this.facing = 1; 
-    this.frame = 0;
+
+    if (this.standing) {this.frame = 0;}
+
     this.body.velocity.x = -this.MOVE_SPEED;
   }else if (this.rightInputIsActive()) {
     // this.facing = 'right'
     this.facing = -1; 
-    this.frame = 0;
+
+    if (this.standing) {this.frame = 0;}
 
     this.body.velocity.x = this.MOVE_SPEED;
   }else {
-    this.frame = 0;
+    // this.frame = 1;
     this.body.velocity.x = 0;
   }
 
@@ -99,7 +106,7 @@ Player.prototype.movements = function() {
   // }
 
 
-  if (this.jumps > 0 && this.upInputIsActive(5)) {
+  if (this.jumps > 0 && this.upInputIsActive(5) && this.triangleUnlocked) {
     this.body.velocity.y = this.JUMP_SPEED;
     this.jumping = true;
   }
