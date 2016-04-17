@@ -60,7 +60,7 @@ Game.Load.prototype = {
     //Load button for twitter
     this.game.load.image('twitter','assets/images/twitter.png');
     this.game.load.spritesheet('shapes', 'assets/images/shapes.png', 48, 48, 3);
-    this.game.load.spritesheet('tiles', 'assets/images/tiles.png', 32, 32, 2);
+    this.game.load.spritesheet('tiles', 'assets/images/tiles.png', 32, 32, 3);
 
     this.game.load.tilemap('world', 'assets/atlas/world.json', null, Phaser.Tilemap.TILED_JSON);
     // this.game.load.tilemap('world', 'assets/atlas/test.json', null, Phaser.Tilemap.TILED_JSON);
