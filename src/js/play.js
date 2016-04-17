@@ -31,10 +31,26 @@ Game.Play.prototype = {
     this.game.world.setBounds(0, 0 ,Game.w ,Game.h);
     this.game.stage.backgroundColor = '#dcdcdc';
 
-    // this.player = this.game.add.sprite(Game.w/2, Game.h/2, 'shapes', 0);
-    this.player = new Player(this.game, Game.w/2, Game.h/2);;
 
-    this.cursors = this.game.input.keyboard.createCursorKeys();
+    // console.log(Game.camera.x*Game.w);
+    // this.game.camera.position = Phaser.Point(Game.camera.x*Game.w, Game.camera.y*Game.h);
+
+
+    this.game.physics.startSystem(Phaser.Physics.ARCADE);
+    //Load World Map
+
+    this.map = this.game.add.tilemap('world');
+    this.map.addTilesetImage('tiles', 'tiles');
+
+    this.map.setCollision(1);
+    this.map.setCollision(2);
+
+    this.layer = this.map.createLayer('layer1');
+    this.layer.resizeWorld();
+
+    // this.player = new Player(this.game, Game.w/2, Game.h/2);
+    this.player = new Player(this.game, 1216, 1216); 
+
     // // Music
     // this.music = this.game.add.sound('music');
     // this.music.volume = 0.5;
@@ -42,14 +58,9 @@ Game.Play.prototype = {
 
 
 
-
-    //Setup WASD and extra keys
-    wKey = this.game.input.keyboard.addKey(Phaser.Keyboard.W);
-    aKey = this.game.input.keyboard.addKey(Phaser.Keyboard.A);
-    sKey = this.game.input.keyboard.addKey(Phaser.Keyboard.S);
-    dKey = this.game.input.keyboard.addKey(Phaser.Keyboard.D);
-    // muteKey = game.input.keyboard.addKey(Phaser.Keyboard.M);
-
+    //Set Gamera to screen 6
+    this.game.camera.x = Game.camera.x*Game.w;
+    this.game.camera.y = Game.camera.y*Game.h;
 
     //Create Twitter button as invisible, show during win condition to post highscore
     this.twitterButton = this.game.add.button(this.game.world.centerX, this.game.world.centerY + 200,'twitter', this.twitter, this);
@@ -59,7 +70,10 @@ Game.Play.prototype = {
 
   update: function() {
 
+    this.game.physics.arcade.collide(this.player, this.layer);
+
     this.player.movements();
+    this.player.updateCamera();
 
     // // Toggle Music
     // muteKey.onDown.add(this.toggleMute, this);

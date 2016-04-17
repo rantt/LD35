@@ -1,8 +1,8 @@
 var Player = function(game, x, y) {
   this.game = game;
 
-  this.JUMP_SPEED = -550;
-  this.MOVE_SPEED = 350;
+  this.JUMP_SPEED = -500;
+  this.MOVE_SPEED = 300;
 
 
   this.standing = false;
@@ -15,9 +15,10 @@ var Player = function(game, x, y) {
   //Load Physics
   this.game.physics.arcade.enable(this);
   this.anchor.setTo(0.5, 0.5);
+  // this.body.setSize(10, 18);
   this.body.collideWorldBounds = true;
   this.body.gravity.y = 750;
-  this.game.camera.follow(this, Phaser.Camera.FOLLOW_PLATFORMER);
+  // this.game.camera.follow(this, Phaser.Camera.FOLLOW_PLATFORMER);
 
 
   this.game.input.keyboard.addKeyCapture([
@@ -119,6 +120,51 @@ Player.prototype.movements = function() {
 
 };
 
+
+Player.prototype.updateCamera = function() {
+    if (this.tweening) {
+      return;
+    }
+
+    var tileSize = 32;
+    this.tweening = true;
+    
+    // var speed = 700;
+    var speed = 700;
+    var toMove = false;
+
+    if (this.y > this.game.camera.y + Game.h - tileSize) {
+      // console.log(Game.camera);
+      // this.y += tileSize; 
+      Game.camera.y += 1;
+      toMove = true;
+    }
+    else if (this.y < this.game.camera.y) {
+      // this.y -= tileSize;
+      Game.camera.y -= 1;
+      toMove = true;
+    }
+    else if (this.x > this.game.camera.x + Game.w - tileSize) {
+      // this.x += tileSize;
+      Game.camera.x += 1;
+      toMove = true;
+    }
+    else if (this.x < this.game.camera.x) {
+      // this.x -= tileSize;
+      Game.camera.x -= 1;
+      toMove = true;
+    }
+
+    if (toMove) {
+      var t = this.game.add.tween(this.game.camera).to({x:Game.camera.x*Game.w, y:Game.camera.y*Game.h}, speed);
+      t.start();
+      t.onComplete.add(function(){this.tweening = false;}, this);
+    }
+    else {
+      this.tweening = false;
+    }
+
+};
 
 
 Player.prototype.constructor = Player;

@@ -1,7 +1,18 @@
+var tileSize = 32;
+
+var rows = 20,
+    cols = 25;
+
 var Game = {
-  w: 800,
-  h: 600
+  w: tileSize * cols,
+  h: tileSize * rows,
+  camera: {x:1, y:1}
 };
+
+// var Game = {
+//   w: 800,
+//   h: 600
+// };
 
 // var w = 800;
 // var h = 600;
@@ -48,7 +59,11 @@ Game.Load.prototype = {
 
     //Load button for twitter
     this.game.load.image('twitter','assets/images/twitter.png');
-    this.game.load.spritesheet('shapes', 'assets/images/shapes.png', 32, 32, 3);
+    this.game.load.spritesheet('shapes', 'assets/images/shapes.png', 48, 48, 3);
+    this.game.load.spritesheet('tiles', 'assets/images/tiles.png', 32, 32, 2);
+
+    this.game.load.tilemap('world', 'assets/atlas/world.json', null, Phaser.Tilemap.TILED_JSON);
+    // this.game.load.tilemap('world', 'assets/atlas/test.json', null, Phaser.Tilemap.TILED_JSON);
 
     // Music Track
     // this.game.load.audio('music','soundtrack.mp3');
