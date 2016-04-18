@@ -17,7 +17,7 @@ Game.Menu.prototype =  {
       .to( {y:100 }, 2000, Phaser.Easing.Linear.In, true, 0, -1)
       .yoyo(true);
 
-    var instructions = this.game.add.bitmapText(Game.w/2, Game.h-200, 'minecraftia', 'Controls:\nWASD/Arrows\nUnlock abilities by collecting shapes:\nRed Triangle: Jump (up)\nGreen Bowtie: Wall Jump(up when touching a wall)\nCircle: Shrink (down)\nBlue Trinagle: Double Jump (up x2)', 18);
+    var instructions = this.game.add.bitmapText(Game.w/2, Game.h-200, 'minecraftia', 'Controls:\nWASD/Arrows\nUnlock abilities by collecting shapes:\nRed Triangle: Jump (up)\nGreen Bowtie: Wall Jump(up when touching a wall)\nCircle: Shrink (down)\nBlue Triangle: Double Jump (up x2)', 18);
     instructions.anchor.setTo(0.5);
 
 
