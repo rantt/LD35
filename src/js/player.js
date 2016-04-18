@@ -1,6 +1,9 @@
 var Player = function(game, x, y) {
   this.game = game;
 
+  this.jumpSnd = this.game.add.sound('jump');
+  this.jumpSnd.volume = 0.3;
+
   this.JUMP_SPEED = -550;
   this.MOVE_SPEED = 300;
 
@@ -143,6 +146,7 @@ Player.prototype.movements = function() {
 
 
   if (this.jumps > 0 && this.upInputIsActive(5) && this.triangleUnlocked) {
+    this.jumpSnd.play();
     this.body.velocity.y = this.JUMP_SPEED;
     this.jumping = true;
   }

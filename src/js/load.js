@@ -67,7 +67,8 @@ Game.Load.prototype = {
     // this.game.load.tilemap('world', 'assets/atlas/test.json', null, Phaser.Tilemap.TILED_JSON);
 
     // Music Track
-    // this.game.load.audio('music','soundtrack.mp3');
+    this.game.load.audio('music','assets/audio/music.wav');
+    this.game.load.audio('jump','assets/audio/jump.wav');
 
   },
   create: function() {

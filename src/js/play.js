@@ -62,15 +62,16 @@ Game.Play.prototype = {
     // this.player = new Player(this.game, Game.w/2, Game.h/2);
     this.player = new Player(this.game, 2000, 1216); 
 
-    // // Music
-    // this.music = this.game.add.sound('music');
-    // this.music.volume = 0.5;
-    // this.music.play('',0,1,true);
+    // Music
+    this.music = this.game.add.sound('music');
+    this.music.volume = 0.3;
+    this.music.loop = true;
+    this.music.play();
+
 
 
 
     //Set Gamera to screen 6
-    // console.log(Game.camera.x)
     this.game.camera.x = Game.camera.x*Game.w;
     this.game.camera.y = Game.camera.y*Game.h;
 
@@ -108,7 +109,6 @@ Game.Play.prototype = {
 
     this.powerups.forEach(function(p) {
       p.frame = parseInt(p.index);
-      console.log(p.index);
 
       p.anchor.setTo(0.5);
       p.y += p.height/2;
@@ -139,19 +139,19 @@ Game.Play.prototype = {
 
     if (powerup.frame === 1) {
       player.triangleUnlocked = true;
-      console.log('picked up triangle');
+      // console.log('picked up triangle');
       powerup.kill();
     }else if (powerup.frame === 3) {
       player.bowtieUnlocked = true;
-      console.log('picked up bowtie');
+      // console.log('picked up bowtie');
       powerup.kill();
 		}else if (powerup.frame === 2) {
 			player.circleUnlocked = true;
-			console.log('picked up circle');
+			// console.log('picked up circle');
 			powerup.kill()
 		}else if (powerup.frame === 4) {
 			player.doubleJumpUnlocked = true;
-			console.log('picked up doublejump');
+			// console.log('picked up doublejump');
 			powerup.kill();
 		}
   },
