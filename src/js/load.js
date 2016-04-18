@@ -6,7 +6,8 @@ var rows = 20,
 var Game = {
   w: tileSize * cols,
   h: tileSize * rows,
-  camera: {x:2, y:1}
+  camera: {x:2, y:1},
+	respawn: {x: 2000, y: 1216},
 };
 
 // var Game = {
@@ -31,10 +32,10 @@ Game.Boot.prototype = {
     this.game.load.bitmapFont('minecraftia', 'assets/fonts/font.png', 'assets/fonts/font.xml'); //load default font
 
 
-    // //Scale Image to Fit Window
-    // this.game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
-    // this.game.scale.maxHeight = window.innerHeight;
-    // this.game.scale.maxWidth = window.innerHeight*(Game.w/Game.h);
+    //Scale Image to Fit Window
+    this.game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+    this.game.scale.maxHeight = window.innerHeight;
+    this.game.scale.maxWidth = window.innerHeight*(Game.w/Game.h);
 
   },
   create: function() {
@@ -59,7 +60,7 @@ Game.Load.prototype = {
 
     //Load button for twitter
     this.game.load.image('twitter','assets/images/twitter.png');
-    this.game.load.spritesheet('shapes', 'assets/images/shapes.png', 48, 48, 3);
+    this.game.load.spritesheet('shapes', 'assets/images/shapes.png', 48, 48, 5);
     this.game.load.spritesheet('tiles', 'assets/images/tiles.png', 32, 32, 3);
 
     this.game.load.tilemap('world', 'assets/atlas/world.json', null, Phaser.Tilemap.TILED_JSON);

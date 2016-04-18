@@ -4,8 +4,13 @@ var Player = function(game, x, y) {
   this.JUMP_SPEED = -550;
   this.MOVE_SPEED = 300;
 
-  // this.triangleUnlocked = false;
-  this.triangleUnlocked = true;
+  this.triangleUnlocked = false;
+
+  this.bowtieUnlocked = false;
+
+	this.circleUnlocked = false;
+
+	this.doubleJumpUnlocked = false;
 
   this.standing = false;
   this.jumping = false;
@@ -62,6 +67,14 @@ Player.prototype.upInputRelease = function() {
   return released;
 };
 
+Player.prototype.downInputIsActive = function() {
+  var isActive = false;
+  isActive = this.game.input.keyboard.isDown(Phaser.Keyboard.S);  
+  isActive |= this.game.input.keyboard.isDown(Phaser.Keyboard.DOWN);  
+  return isActive;
+};
+
+
 Player.prototype.movements = function() {
   this.standing = this.body.blocked.down || this.body.touching.down;
   this.touchingLeft = this.body.blocked.left || this.body.touching.left;
@@ -69,10 +82,22 @@ Player.prototype.movements = function() {
 
   if (this.standing) {
       this.frame = 0;
-      this.jumps = 2;
+			if (this.doubleJumpUnlocked === true) {
+				this.jumps = 2;
+			}else {
+				this.jumps = 1;
+			}
       this.jumping = false;
   }else {
-    if (this.triangleUnlocked === true) {
+		if (this.doubleJumpUnlocked === true) {
+			if (this.jumps === 1) {
+				this.frame = 4;
+			}else {
+				this.frame = 1;
+			}			
+
+    }
+	 else if (this.triangleUnlocked === true) {
       this.frame = 1;
     }
   }
@@ -95,16 +120,26 @@ Player.prototype.movements = function() {
     // this.frame = 1;
     this.body.velocity.x = 0;
   }
+	
+	if (this.downInputIsActive()) {
+		this.frame = 2;
+		this.body.setSize(30, 30);
+	}else {
+		this.body.setSize(48, 48);
+	}
 
-  // if (this.touchingLeft && !this.standing) {
-  //   this.sliding = true;
-  //   this.frame = 1;
-  // }else if (this.touchingRight && !this.standing) {
-  //   this.sliding = true;
-  //   this.frame = 2;
-  // }else {
-  //   this.sliding = false;
-  // }
+
+	if (this.bowtieUnlocked) {
+		if (this.touchingLeft && !this.standing) {
+			this.sliding = true;
+			this.frame = 3;
+		}else if (this.touchingRight && !this.standing) {
+			this.sliding = true;
+			this.frame = 3;
+		}else {
+			this.sliding = false;
+		}
+	}
 
 
   if (this.jumps > 0 && this.upInputIsActive(5) && this.triangleUnlocked) {
@@ -112,13 +147,13 @@ Player.prototype.movements = function() {
     this.jumping = true;
   }
 
-  // if (this.sliding && this.upInputIsActive(5)) {
-  //   this.jumps++;
-  //
-  //   this.game.add.tween(this).to({x: this.x+50*this.facing}, 100, Phaser.Easing.Linear.Out, true, 0); //snap in place
-  //   this.body.velocity.y = this.JUMP_SPEED;
-  //   this.jumping = true;
-  // }
+  if (this.sliding && this.upInputIsActive(5) && this.bowtieUnlocked) {
+    this.jumps++;
+
+    this.game.add.tween(this).to({x: this.x+50*this.facing}, 100, Phaser.Easing.Linear.Out, true, 0); //snap in place
+    this.body.velocity.y = this.JUMP_SPEED;
+    this.jumping = true;
+  }
 
 
   if (this.jumping && this.upInputRelease()) {
@@ -173,6 +208,5 @@ Player.prototype.updateCamera = function() {
     }
 
 };
-
 
 Player.prototype.constructor = Player;
