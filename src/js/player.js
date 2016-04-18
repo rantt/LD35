@@ -124,7 +124,7 @@ Player.prototype.movements = function() {
     this.body.velocity.x = 0;
   }
 	
-	if (this.downInputIsActive()) {
+	if (this.downInputIsActive() && this.circleUnlocked === true) {
 		this.frame = 2;
 		this.body.setSize(30, 30);
 	}else {
