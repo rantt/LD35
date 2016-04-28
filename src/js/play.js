@@ -25,14 +25,19 @@ Game.Play = function(game) {
 
 Game.Play.prototype = {
   init: function() {
-    this.game.physics.startSystem(Phaser.Physics.ARCADE);
+    // this.game.physics.startSystem(Phaser.Physics.ARCADE);
+    this.game.physics.startSystem(Phaser.Physics.P2JS);
+    this.game.physics.p2.setImpactEvents(true);
   },
   create: function() {
     this.game.world.setBounds(0, 0 ,Game.w ,Game.h);
     this.game.stage.backgroundColor = '#000';
 
-    this.elevators = this.game.add.physicsGroup();
-    this.elevators.setAll('body.allowGravity', false);
+    this.elevators = this.game.add.group();
+    this.elevators.enableBody = true;
+    this.elevators.physicsBodyType = Phaser.Physics.P2JS;
+    // this.elevators = this.game.add.physicsGroup();
+    // this.elevators.setAll('body.allowGravity', false);
 
     this.platforms = this.game.add.physicsGroup();
     this.platforms.setAll('body.allowGravity', false);
@@ -49,6 +54,10 @@ Game.Play.prototype = {
     this.map.setCollision(1);
     this.map.setCollision(2);
 
+    this.game.physics.p2.convertTilemap(this.map, this.layer);
+    // this.game.physics.p2.restitution = 0.5;
+    this.game.physics.p2.gravity.y = 300;
+
     this.map.setTileIndexCallback(3, this.playerDead, this);
 
     this.map.createFromObjects('objects', 4, this.makeBox(160, 32,'#00ff00'), 0, true, false, this.elevators);
@@ -62,11 +71,11 @@ Game.Play.prototype = {
     // this.player = new Player(this.game, Game.w/2, Game.h/2);
     this.player = new Player(this.game, 2000, 1216); 
 
-    // Music
-    this.music = this.game.add.sound('music');
-    this.music.volume = 0.3;
-    this.music.loop = true;
-    this.music.play();
+    // // Music
+    // this.music = this.game.add.sound('music');
+    // this.music.volume = 0.3;
+    // this.music.loop = true;
+    // this.music.play();
 
 
 
@@ -87,11 +96,14 @@ Game.Play.prototype = {
   },
   loadObjects: function() {
     this.elevators.forEach(function(e) {
-      e.anchor.set(0.40, 0);
-      e.body.immovable = true;
+      e.body.kinematic = true;
+      // this.game.physics.p2.enable(e);
+      // e.collideWorldBounds = true;
+      // e.anchor.set(0.40, 0);
+      // e.body.immovable = true;
 
       if (e.distance !== undefined) {
-        var t = this.game.add.tween(e).to({y: (e.distance*32*e.direction*(-1)).toString()}, (e.distance*300)).to({y: (e.distance*32*e.direction).toString()}, (e.distance*300));
+        var t = this.game.add.tween(e.body).to({y: (e.distance*32*e.direction*(-1)).toString()}, (e.distance*300)).to({y: (e.distance*32*e.direction).toString()}, (e.distance*300));
        t.loop(true).start(); 
       }
     }, this);
@@ -119,9 +131,9 @@ Game.Play.prototype = {
 
   update: function() {
 
-    this.game.physics.arcade.collide(this.player, this.layer);
-    this.game.physics.arcade.collide(this.player, this.elevators);
-    this.game.physics.arcade.collide(this.player, this.platforms);
+    // this.game.physics.arcade.collide(this.player, this.layer);
+    // this.game.physics.arcade.collide(this.player, this.elevators);
+    // this.game.physics.arcade.collide(this.player, this.platforms);
 
 
 

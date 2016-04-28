@@ -7,7 +7,7 @@ var Player = function(game, x, y) {
   this.JUMP_SPEED = -550;
   this.MOVE_SPEED = 300;
 
-  this.triangleUnlocked = false;
+  this.triangleUnlocked = true;
 
   this.bowtieUnlocked = false;
 
@@ -23,11 +23,14 @@ var Player = function(game, x, y) {
 
 
   //Load Physics
-  this.game.physics.arcade.enable(this);
+  // this.game.physics.arcade.enable(this);
+  this.game.physics.p2.enable(this);
   this.anchor.setTo(0.5, 0.5);
   // this.body.setSize(10, 18);
   this.body.collideWorldBounds = true;
   this.body.gravity.y = 750;
+  this.body.fixedRotation = true; //prevent player from spinning
+  this.body.setCircle(24); //reduce catching on walls
   // this.game.camera.follow(this, Phaser.Camera.FOLLOW_PLATFORMER);
 
 
@@ -79,9 +82,11 @@ Player.prototype.downInputIsActive = function() {
 
 
 Player.prototype.movements = function() {
-  this.standing = this.body.blocked.down || this.body.touching.down;
-  this.touchingLeft = this.body.blocked.left || this.body.touching.left;
-  this.touchingRight = this.body.blocked.right || this.body.touching.right;
+  // this.standing = this.body.blocked.down || this.body.touching.down;
+  // this.touchingLeft = this.body.blocked.left || this.body.touching.left;
+  // this.touchingRight = this.body.blocked.right || this.body.touching.right;
+
+  this.standing = true;
 
   if (this.standing) {
       this.frame = 0;
@@ -124,12 +129,12 @@ Player.prototype.movements = function() {
     this.body.velocity.x = 0;
   }
 	
-	if (this.downInputIsActive() && this.circleUnlocked === true) {
-		this.frame = 2;
-		this.body.setSize(30, 30);
-	}else {
-		this.body.setSize(48, 48);
-	}
+	// if (this.downInputIsActive() && this.circleUnlocked === true) {
+	// 	this.frame = 2;
+	// 	this.body.setSize(30, 30);
+	// }else {
+	// 	this.body.setSize(48, 48);
+	// }
 
 
 	if (this.bowtieUnlocked) {
